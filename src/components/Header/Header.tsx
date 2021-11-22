@@ -4,12 +4,6 @@ import Typography from "@mui/material/Typography";
 import "./Header.css";
 import { createTheme, ThemeProvider } from "@mui/material";
 
-declare module "@mui/material/styles" {
-  interface ThemeOptions {
-    cornFlower?: string;
-  }
-}
-
 const theme = createTheme({
   palette: {
     primary: {
@@ -31,7 +25,7 @@ const Header: FC = () => {
           data-testid={"app-bar-title"}
           className={"title"}
         >
-          FunnyDev BookStore
+          FunnyDev
         </Typography>
       </AppBar>
     </ThemeProvider>

@@ -12,6 +12,6 @@ describe("Header Component", () => {
     const appBar = header.getByTestId("app-bar");
     const insideAppBar = within(appBar);
     const typography = within(insideAppBar.getByTestId("app-bar-title"));
-    expect(typography.getByText("FunnyDev BookStore")).toBeInTheDocument();
+    expect(typography.getByText("FunnyDev")).toBeInTheDocument();
   });
 });
