@@ -2,7 +2,7 @@ import { FC } from "react";
 import AppBar from "@mui/material/AppBar";
 import Typography from "@mui/material/Typography";
 import "./Header.css";
-import { createTheme, ThemeProvider } from "@mui/material";
+import { createTheme, ThemeProvider, Toolbar } from "@mui/material";
 
 const theme = createTheme({
   palette: {
@@ -16,6 +16,7 @@ const theme = createTheme({
     },
   },
 });
+
 const Header: FC = () => {
   return (
     <ThemeProvider theme={theme}>
@@ -25,13 +26,15 @@ const Header: FC = () => {
         className={"appBar"}
         color={"primary"}
       >
-        <Typography
-          variant={"h4"}
-          data-testid={"app-bar-title"}
-          className={"title"}
-        >
-          FunnyDev
-        </Typography>
+        <Toolbar>
+          <Typography
+            variant={"h4"}
+            data-testid={"app-bar-title"}
+            className={"title"}
+          >
+            FunnyDev
+          </Typography>
+        </Toolbar>
       </AppBar>
     </ThemeProvider>
   );
