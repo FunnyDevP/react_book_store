@@ -10,6 +10,11 @@ const theme = createTheme({
       main: "#7393C2",
     },
   },
+  typography: {
+    h4: {
+      fontWeight: 600,
+    },
+  },
 });
 const Header: FC = () => {
   return (
@@ -21,7 +26,7 @@ const Header: FC = () => {
         color={"primary"}
       >
         <Typography
-          variant={"h5"}
+          variant={"h4"}
           data-testid={"app-bar-title"}
           className={"title"}
         >
