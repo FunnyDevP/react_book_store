@@ -1,10 +1,11 @@
 import React, { FC } from "react";
+import Header from "./components/Header/Header";
 
 const App: FC = () => {
   return (
-    <div>
-      <h1>Hello React Bookstore</h1>
-    </div>
+    <>
+      <Header data-testid={"app-header"} />
+    </>
   );
 };
 
