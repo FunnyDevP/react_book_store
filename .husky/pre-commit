@@ -3,5 +3,5 @@
 
 printf "\n\360\237\215\272\t Running pre-commit hook...  \n"
 
-printf "\n\360\237\215\272\t Running linter...  \n"
+printf "\n\360\237\215\272\t Running lint-staged...  \n"
 npx lint-staged
