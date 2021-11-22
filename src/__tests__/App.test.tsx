@@ -5,6 +5,6 @@ describe("App Component", () => {
   it("should display message Hello React bookstore", () => {
     const app = render(<App />);
 
-    expect(app.getByText("Hello React bookstore")).toBeInTheDocument();
+    expect(app.getByText("Hello React Bookstore")).toBeInTheDocument();
   });
 });
