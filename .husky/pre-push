@@ -1,0 +1,5 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+printf "\360\237\215\272\t Running Unit tests...  \n"
+npm run test
