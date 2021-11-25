@@ -1,0 +1,15 @@
+
+.categoryContainer {
+    float: right;
+    width: 34%;
+    margin-top: 20px;
+}
+
+.categoryNameLink {
+    text-decoration: none;
+}
+
+.categoryName {
+    opacity: 50%;
+    margin-left: 60px;
+}

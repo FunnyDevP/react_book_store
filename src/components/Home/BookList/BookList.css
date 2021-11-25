@@ -1,0 +1,16 @@
+.divider {
+    margin-top: 5px;
+}
+
+.bookListContainer {
+    width: 66%;
+    display: inline-block;
+}
+
+.categoryName {
+    margin-top: 20px;
+}
+
+.bookAuthor {
+    opacity: 50%;
+}
