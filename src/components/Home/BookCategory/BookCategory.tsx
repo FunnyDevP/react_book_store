@@ -11,9 +11,17 @@ const BookCategory: FC = () => {
       <Box sx={{ float: "right", width: "34%", marginTop: "20px" }}>
         {DummyBookCategory.map((cate) => {
           return (
-            <Typography variant={"subtitle1"} sx={{ opacity: "50%" }}>
-              {cate}
-            </Typography>
+            <a href={`#${cate}`} style={{ textDecoration: "none" }}>
+              <Typography
+                variant={"subtitle1"}
+                sx={{
+                  opacity: "50%",
+                  marginLeft: "60px",
+                }}
+              >
+                {cate}
+              </Typography>
+            </a>
           );
         })}
       </Box>
