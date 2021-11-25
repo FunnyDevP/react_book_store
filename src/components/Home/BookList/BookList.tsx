@@ -13,7 +13,6 @@ const BookList: FC = () => {
         width: "66%",
         display: "inline-block",
       }}
-      key={"booklist_box"}
     >
       {BookData.data.map((data) => {
         return (

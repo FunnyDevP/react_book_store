@@ -11,7 +11,12 @@ const BookCategory: FC = () => {
       <Box sx={{ float: "right", width: "34%", marginTop: "20px" }}>
         {DummyBookCategory.map((cate) => {
           return (
-            <a href={`#${cate}`} style={{ textDecoration: "none" }}>
+            <a
+              href={`#${cate}`}
+              style={{ textDecoration: "none" }}
+              data-testid={"cate_lists"}
+              key={cate}
+            >
               <Typography
                 variant={"subtitle1"}
                 sx={{
