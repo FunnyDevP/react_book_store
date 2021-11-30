@@ -1,99 +1,84 @@
-import { render, screen, within } from "@testing-library/react";
+import {
+  act,
+  cleanup,
+  render,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import BookList from "../BookList";
-import DummyBookData from "../../../../service/DummyBookData";
+import HttpClient from "../../../../service/api/API";
 
 describe("Book list component", () => {
   beforeEach(() => {
-    DummyBookData.data = [
-      {
-        CategoryName: "Data",
-        BookData: [
-          {
-            id: "1",
-            name: "Data_name_test_1",
-            author: "Data_author_test_1",
-            price: 1234.56,
-            createdAt: "hello world",
-          },
-          {
-            id: "2",
-            name: "Data_name_test_2",
-            author: "Data_author_test_2",
-            price: 1234.56,
-            createdAt: "hello world",
-          },
-        ],
-      },
-
-      {
-        CategoryName: "Development",
-        BookData: [
-          {
-            id: "3",
-            name: "Development_name_test_1",
-            author: "Development_author_test_1",
-            price: 1234.56,
-            createdAt: "hello world",
-          },
-          {
-            id: "2",
-            name: "Development_name_test_2",
-            author: "Development_author_test_2",
-            price: 1234.56,
-            createdAt: "hello world",
-          },
-        ],
-      },
-    ];
+    const spy = jest.spyOn(HttpClient, "getAll");
+    const data = {
+      data: [
+        {
+          categoryId: "b3d9e7a8-3c31-4aed-9984-c65c14ef0795",
+          categoryName: "Data",
+          books: [
+            {
+              id: "405f49b6-e570-4081-8c51-861dd6bfac65",
+              name: "Getting Started with Natural Language Processing",
+              author: "Ekaterina Kochmar",
+              price: 19.99,
+              createdAt: "2021-11-28T18:00:20.003097",
+            },
+          ],
+        },
+      ],
+    };
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    spy.mockResolvedValue({ data: data });
   });
 
-  it("should render category name", function () {
-    render(<BookList />);
-    const bookData = screen.getAllByTestId("book_lists_data");
-    expect(bookData.length).toEqual(2);
-    expect(
-      within(bookData[0]).getByTestId("category_name").textContent
-    ).toEqual("Data");
-    expect(
-      within(bookData[1]).getByTestId("category_name").textContent
-    ).toEqual("Development");
+  afterEach(() => {
+    jest.clearAllMocks();
+    cleanup();
   });
 
-  it("should render category name and list data", function () {
-    render(<BookList />);
-    const bookData = screen.getAllByTestId("book_lists_data");
-    expect(bookData.length).toEqual(2);
+  describe("book list", () => {
+    it("should render category name", async () => {
+      await act(async () => {
+        render(<BookList />);
+      });
 
-    const categoryData = within(bookData[0]);
-    expect(categoryData.getByTestId("category_name").textContent).toEqual(
-      "Data"
-    );
-    expect(categoryData.getAllByTestId("category_lists").length).toEqual(2);
-    const categoryDataLists1 = within(
-      categoryData.getAllByTestId("category_lists")[0]
-    );
-    expect(
-      categoryDataLists1.getByText("Data_name_test_1")
-    ).toBeInTheDocument();
-    expect(
-      categoryDataLists1.getByText("Data_author_test_1")
-    ).toBeInTheDocument();
-    const categoryDataLists2 = within(
-      categoryData.getAllByTestId("category_lists")[1]
-    );
-    expect(
-      categoryDataLists2.getByText("Data_name_test_2")
-    ).toBeInTheDocument();
-    expect(
-      categoryDataLists2.getByText("Data_author_test_2")
-    ).toBeInTheDocument();
+      await waitFor(() => {
+        const bookData = screen.getAllByTestId("book_lists_data");
+        expect(bookData.length).toEqual(1);
+        expect(
+          within(bookData[0]).getByTestId("category_name").textContent
+        ).toEqual("Data");
+      });
+    });
 
-    const categoryDevelopment = within(bookData[1]);
-    expect(
-      categoryDevelopment.getByTestId("category_name").textContent
-    ).toEqual("Development");
-    expect(categoryDevelopment.getAllByTestId("category_lists").length).toEqual(
-      2
-    );
+    it("should render category name and list data", async () => {
+      await act(async () => {
+        render(<BookList />);
+      });
+      await waitFor(() => {
+        const bookData = screen.getAllByTestId("book_lists_data");
+        expect(bookData.length).toEqual(1);
+
+        const categoryData = within(bookData[0]);
+        expect(categoryData.getByTestId("category_name").textContent).toEqual(
+          "Data"
+        );
+        expect(categoryData.getAllByTestId("category_lists").length).toEqual(1);
+        const categoryDataLists1 = within(
+          categoryData.getAllByTestId("category_lists")[0]
+        );
+        expect(
+          categoryDataLists1.getByText(
+            "Getting Started with Natural Language Processing"
+          )
+        ).toBeInTheDocument();
+        expect(
+          categoryDataLists1.getByText("Ekaterina Kochmar")
+        ).toBeInTheDocument();
+      });
+    });
   });
 });
