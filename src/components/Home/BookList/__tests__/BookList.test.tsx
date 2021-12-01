@@ -1,6 +1,7 @@
 import {
   act,
   cleanup,
+  fireEvent,
   render,
   screen,
   waitFor,
@@ -8,6 +9,7 @@ import {
 } from "@testing-library/react";
 import BookList from "../BookList";
 import HttpClient from "../../../../service/api/API";
+import Cookies from "js-cookie";
 
 describe("Book list component", () => {
   beforeEach(() => {
@@ -23,7 +25,7 @@ describe("Book list component", () => {
               name: "Getting Started with Natural Language Processing",
               author: "Ekaterina Kochmar",
               price: 19.99,
-              createdAt: "2021-11-28T18:00:20.003097",
+              publicationAt: "2021-11-28T18:00:20.003097",
             },
           ],
         },
@@ -41,6 +43,8 @@ describe("Book list component", () => {
 
   describe("book list", () => {
     it("should render category name", async () => {
+      const dateConv = new Date("2021-12-28T18:00:20.003097");
+      console.log(dateConv.getFullYear(), dateConv.getMonth());
       await act(async () => {
         render(<BookList />);
       });
@@ -78,6 +82,21 @@ describe("Book list component", () => {
         expect(
           categoryDataLists1.getByText("Ekaterina Kochmar")
         ).toBeInTheDocument();
+        expect(
+          categoryDataLists1.getByText("Publication November 2021")
+        ).toBeInTheDocument();
+      });
+    });
+    it("should add book to cart", async () => {
+      await act(async () => {
+        render(<BookList />);
+      });
+
+      await waitFor(() => {
+        const bookBt = screen.getAllByTestId("category_lists");
+        fireEvent.click(bookBt[0]);
+
+        expect(Cookies.get("hello_key")).toBeDefined();
       });
     });
   });

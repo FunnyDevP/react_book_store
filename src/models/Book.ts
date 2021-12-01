@@ -1,9 +1,9 @@
-interface BookData {
+export interface BookData {
   id: string;
   name: string;
   author: string;
   price: number;
-  createdAt: string;
+  publicationAt: string;
 }
 
 interface DataInformation {

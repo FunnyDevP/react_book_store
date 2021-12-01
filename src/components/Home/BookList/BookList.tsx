@@ -1,18 +1,38 @@
 import React, { FC, useEffect, useState } from "react";
-import { Data } from "../../../models/Book";
+import { BookData, Data } from "../../../models/Book";
 import HttpClient from "../../../service/api/API";
-import { Box, Divider, ThemeProvider, Typography } from "@mui/material";
+import { Box, Divider, Grid, ThemeProvider, Typography } from "@mui/material";
 import CustomTheme from "../CustomTheme";
+import MonthNumToMonthName from "../../../utils/MonthConverter";
+import "./BookList.css";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { bookSelector, bookState } from "../../../state/BookState";
 
 const BookList: FC = () => {
   const [books, setBooks] = useState<Data>();
   const [isLoading, setIsLoading] = useState(true);
+  const [bookCart, setBookCart] = useRecoilState(bookState);
+  const bookCartValue = useRecoilValue(bookSelector);
   useEffect(() => {
     HttpClient.getAll().then((resp) => {
       setBooks(resp.data);
+
       setIsLoading(false);
     });
   }, []);
+
+  const handleAddToCart = (data: BookData, bookCateId: string) => {
+    setBookCart([
+      ...bookCart,
+      {
+        bookId: data.id,
+        bookCateId: bookCateId,
+        bookName: data.name,
+        bookPrice: data.price,
+      },
+    ]);
+  };
+
   return (
     <Box
       sx={{
@@ -20,28 +40,54 @@ const BookList: FC = () => {
         display: "inline-block",
       }}
     >
-      {isLoading ? <h1>loading...</h1> : books != undefined && bookList(books)}
+      {isLoading ? (
+        <h1>loading...</h1>
+      ) : (
+        books != undefined && bookList(books, handleAddToCart)
+      )}
     </Box>
   );
 };
 
-const bookList = (booksData: Data) =>
-  booksData.data.map((data) => {
+const bookList = (
+  booksData: Data,
+  handleFunc: (data: BookData, bookCateId: string) => void
+) =>
+  booksData.data.map((dataInform) => {
     return (
-      <div data-testid={"book_lists_data"} key={data.categoryId}>
+      <div data-testid={"book_lists_data"} key={dataInform.categoryId}>
         <ThemeProvider theme={CustomTheme}>
           <Typography
             variant={"h5"}
             sx={{ marginTop: "20px" }}
-            id={data.categoryName}
+            id={dataInform.categoryName}
             data-testid={"category_name"}
           >
-            {data.categoryName}
+            {dataInform.categoryName}
           </Typography>
           <Divider sx={{ marginTop: "5px" }} />
-          {data.books.map((data) => (
-            <div key={data.id} data-testid={"category_lists"}>
-              <Typography variant={"h6"}>{data.name}</Typography>
+          {dataInform.books.map((data) => (
+            <div
+              key={data.id}
+              data-testid={"category_lists"}
+              className="bookContainer"
+              onClick={() => handleFunc(data, dataInform.categoryName)}
+            >
+              <Grid container>
+                <Grid item xs={8}>
+                  <Typography variant={"h6"}>{data.name}</Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <Typography variant={"subtitle2"} sx={{ textAlign: "end" }}>
+                    Publication{" "}
+                    {MonthNumToMonthName(
+                      new Date(data.publicationAt).getMonth() + 1
+                    )}{" "}
+                    2021
+                  </Typography>
+                </Grid>
+              </Grid>
+
               <Typography variant={"subtitle2"} sx={{ opacity: "50%" }}>
                 {data.author}
               </Typography>
