@@ -9,16 +9,22 @@ import "./BookCategory.css";
 const BookCategory: FC = () => {
   return (
     <ThemeProvider theme={CustomTheme}>
-      <Box className="categoryContainer">
+      <Box sx={{ float: "right", width: "34%", marginTop: "20px" }}>
         {DummyBookCategory.map((cate) => {
           return (
             <a
               href={`#${cate}`}
-              className="categoryNameLink"
+              style={{ textDecoration: "none" }}
               data-testid={"cate_lists"}
               key={cate}
             >
-              <Typography variant={"subtitle1"} className="categoryName">
+              <Typography
+                variant={"subtitle1"}
+                sx={{
+                  opacity: "50%",
+                  marginLeft: "60px",
+                }}
+              >
                 {cate}
               </Typography>
             </a>
