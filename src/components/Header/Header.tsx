@@ -3,6 +3,8 @@ import AppBar from "@mui/material/AppBar";
 import Typography from "@mui/material/Typography";
 import "./Header.css";
 import { createTheme, ThemeProvider, Toolbar } from "@mui/material";
+// import Link from "@mui/material/Link";
+import { Link } from "react-router-dom";
 
 const theme = createTheme({
   palette: {
@@ -27,13 +29,15 @@ const Header: FC = () => {
         color={"primary"}
       >
         <Toolbar>
-          <Typography
-            variant={"h4"}
-            data-testid={"app-bar-title"}
-            className={"title"}
-          >
-            FunnyDev
-          </Typography>
+          <Link to={"/"}>
+            <Typography
+              variant={"h4"}
+              data-testid={"app-bar-title"}
+              className={"title"}
+            >
+              FunnyDev
+            </Typography>
+          </Link>
         </Toolbar>
       </AppBar>
     </ThemeProvider>
