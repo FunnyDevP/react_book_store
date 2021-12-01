@@ -44,7 +44,6 @@ describe("Book list component", () => {
 
   describe("book list", () => {
     it("should render category name", async () => {
-      const dateConv = new Date("2021-12-28T18:00:20.003097");
       await act(async () => {
         render(
           <RecoilRoot>
