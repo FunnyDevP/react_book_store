@@ -1,16 +1,17 @@
-import {
-  act,
-  cleanup,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-  within,
-} from "@testing-library/react";
+import {act, cleanup, fireEvent, render, screen, waitFor, within,} from "@testing-library/react";
 import BookList from "../BookList";
 import HttpClient from "../../../../service/api/API";
-import Cookies from "js-cookie";
+import {RecoilRoot, useRecoilValue} from "recoil";
+import {useEffect} from "react";
+import {bookState} from "../../../../state/BookState";
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+export const RecoilObserver = ({ node, onClick }) => {
+  const value = useRecoilValue(node);
+  useEffect(() => onClick(value), [onClick, value]);
+  return null;
+};
 describe("Book list component", () => {
   beforeEach(() => {
     const spy = jest.spyOn(HttpClient, "getAll");
@@ -44,9 +45,13 @@ describe("Book list component", () => {
   describe("book list", () => {
     it("should render category name", async () => {
       const dateConv = new Date("2021-12-28T18:00:20.003097");
-      console.log(dateConv.getFullYear(), dateConv.getMonth());
       await act(async () => {
-        render(<BookList />);
+        render(
+          <RecoilRoot>
+            render(
+            <BookList />)
+          </RecoilRoot>
+        );
       });
 
       await waitFor(() => {
@@ -60,7 +65,11 @@ describe("Book list component", () => {
 
     it("should render category name and list data", async () => {
       await act(async () => {
-        render(<BookList />);
+        render(
+          <RecoilRoot>
+            <BookList />
+          </RecoilRoot>
+        );
       });
       await waitFor(() => {
         const bookData = screen.getAllByTestId("book_lists_data");
@@ -88,15 +97,29 @@ describe("Book list component", () => {
       });
     });
     it("should add book to cart", async () => {
+      const onClick = jest.fn();
       await act(async () => {
-        render(<BookList />);
+        render(
+          <RecoilRoot>
+            <RecoilObserver node={bookState} onClick={onClick} />
+            <BookList />
+          </RecoilRoot>
+        );
       });
 
       await waitFor(() => {
         const bookBt = screen.getAllByTestId("category_lists");
         fireEvent.click(bookBt[0]);
-
-        expect(Cookies.get("hello_key")).toBeDefined();
+        const expectedData = [
+          {
+            bookId: "405f49b6-e570-4081-8c51-861dd6bfac65",
+            bookCateId: "b3d9e7a8-3c31-4aed-9984-c65c14ef0795",
+            bookName: "Getting Started with Natural Language Processing",
+            bookPrice: 19.99,
+          },
+        ];
+        expect(onClick).toHaveBeenCalledWith([]);
+        expect(onClick).toHaveBeenCalledWith(expectedData);
       });
     });
   });

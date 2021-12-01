@@ -5,14 +5,14 @@ import { Box, Divider, Grid, ThemeProvider, Typography } from "@mui/material";
 import CustomTheme from "../CustomTheme";
 import MonthNumToMonthName from "../../../utils/MonthConverter";
 import "./BookList.css";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { bookSelector, bookState } from "../../../state/BookState";
+import { useRecoilState } from "recoil";
+import { bookState } from "../../../state/BookState";
 
 const BookList: FC = () => {
   const [books, setBooks] = useState<Data>();
   const [isLoading, setIsLoading] = useState(true);
   const [bookCart, setBookCart] = useRecoilState(bookState);
-  const bookCartValue = useRecoilValue(bookSelector);
+
   useEffect(() => {
     HttpClient.getAll().then((resp) => {
       setBooks(resp.data);
@@ -71,7 +71,7 @@ const bookList = (
               key={data.id}
               data-testid={"category_lists"}
               className="bookContainer"
-              onClick={() => handleFunc(data, dataInform.categoryName)}
+              onClick={() => handleFunc(data, dataInform.categoryId)}
             >
               <Grid container>
                 <Grid item xs={8}>
