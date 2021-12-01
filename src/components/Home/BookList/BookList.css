@@ -14,3 +14,10 @@
 .bookAuthor {
     opacity: 50%;
 }
+
+.bookContainer:hover {
+    background-color: #7393C2;
+    opacity: 70%;
+    color: #F9F9F9;
+    cursor: copy;
+}
