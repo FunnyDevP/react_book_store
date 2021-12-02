@@ -7,7 +7,7 @@ import {bookState} from "../../../../state/BookState";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-export const RecoilObserver = ({ node, onClick }) => {
+const RecoilObserver = ({ node, onClick }) => {
   const value = useRecoilValue(node);
   useEffect(() => onClick(value), [onClick, value]);
   return null;

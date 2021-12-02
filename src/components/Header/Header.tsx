@@ -3,7 +3,7 @@ import AppBar from "@mui/material/AppBar";
 import Typography from "@mui/material/Typography";
 import "./Header.css";
 import { createTheme, ThemeProvider, Toolbar } from "@mui/material";
-// import Link from "@mui/material/Link";
+import ShoppingCart from "../ShoppingCart/ShoppingCart";
 import { Link } from "react-router-dom";
 
 const theme = createTheme({
@@ -38,6 +38,7 @@ const Header: FC = () => {
               FunnyDev
             </Typography>
           </Link>
+          <ShoppingCart />
         </Toolbar>
       </AppBar>
     </ThemeProvider>
