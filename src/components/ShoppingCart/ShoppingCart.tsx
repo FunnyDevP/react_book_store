@@ -86,14 +86,16 @@ const ShoppingCart: FC = () => {
                 summary {resultBook.length} items
               </Typography>
               <Grid container>
-                <Grid item xs={1}>
+                <Grid item xs={3}>
                   <Typography variant={"h5"} sx={{ fontWeight: "bold" }}>
                     Total
                   </Typography>
                 </Grid>
-                <Grid item xs={9}></Grid>
-                <Grid item xs={2}>
-                  <Typography variant={"h5"} sx={{ fontWeight: "bold" }}>
+                <Grid item xs={9}>
+                  <Typography
+                    variant={"h5"}
+                    sx={{ fontWeight: "bold", textAlign: "end" }}
+                  >
                     {resultBook.length > 0 &&
                       resultBook.reduce((acc, cart) => acc + cart.bookPrice, 0)}
                   </Typography>
